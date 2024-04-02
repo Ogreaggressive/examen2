@@ -71,11 +71,13 @@ class _PostPageState extends State<PostPage> {
                     ],
                   ),
                 ),
-                ElevatedButton(
-                  onPressed: () {
-                    // Add your button action here
-                  },
-                  child: Text('puntaje'),
+                Row(
+                  children: List.generate(5,
+                        (index) => Icon(
+                      Icons.star,
+                      color: Colors.white,
+                    ),
+                  ),
                 ),
               ],
             ),
