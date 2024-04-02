@@ -8,6 +8,7 @@ class PostPage extends StatefulWidget {
 
 class _PostPageState extends State<PostPage> {
   List<dynamic> _posts = [];
+  bool _isLoading = true;
 
   @override
   void initState() {
@@ -24,23 +25,19 @@ class _PostPageState extends State<PostPage> {
         final List<dynamic> data = response.data;
         setState(() {
           _posts = data;
+          _isLoading = false;
         });
-        _printPosts();
       } else {
         print('Failed to fetch posts');
+        setState(() {
+          _isLoading = false;
+        });
       }
     } catch (e) {
       print('Error fetching posts: $e');
-    }
-  }
-
-  void _printPosts() {
-    for (var post in _posts) {
-      print('User ID: ${post['userId']}');
-      print('ID: ${post['id']}');
-      print('Title: ${post['title']}');
-      print('Body: ${post['body']}');
-      print('-----------------------------------');
+      setState(() {
+        _isLoading = false;
+      });
     }
   }
 
@@ -50,8 +47,15 @@ class _PostPageState extends State<PostPage> {
       appBar: AppBar(
         title: Text('Post Page'),
       ),
-      body: Center(
-        child: Text('Hello World'),
+      body: ListView.builder(
+        itemCount: _posts.length,
+        itemBuilder: (context, index) {
+          final post = _posts[index];
+          return ListTile(
+            title: Text(post['title']),
+            subtitle: Text(post['body']),
+          );
+        },
       ),
     );
   }
