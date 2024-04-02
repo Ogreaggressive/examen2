@@ -71,6 +71,12 @@ class _PostPageState extends State<PostPage> {
                     ],
                   ),
                 ),
+                ElevatedButton(
+                  onPressed: () {
+                    // Add your button action here
+                  },
+                  child: Text('puntaje'),
+                ),
               ],
             ),
           );
