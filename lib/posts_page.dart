@@ -34,6 +34,16 @@ class _PostPageState extends State<PostPage> {
     }
   }
 
+  void _printPosts() {
+    for (var post in _posts) {
+      print('User ID: ${post['userId']}');
+      print('ID: ${post['id']}');
+      print('Title: ${post['title']}');
+      print('Body: ${post['body']}');
+      print('-----------------------------------');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
