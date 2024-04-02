@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
 class PostPage extends StatefulWidget {
@@ -6,6 +7,33 @@ class PostPage extends StatefulWidget {
 }
 
 class _PostPageState extends State<PostPage> {
+  List<dynamic> _posts = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchPosts();
+  }
+
+  Future<void> _fetchPosts() async {
+    try {
+      final dio = Dio();
+      final response = await dio.get('https://jsonplaceholder.typicode.com/posts');
+
+      if (response.statusCode == 200) {
+        final List<dynamic> data = response.data;
+        setState(() {
+          _posts = data;
+        });
+        _printPosts();
+      } else {
+        print('Failed to fetch posts');
+      }
+    } catch (e) {
+      print('Error fetching posts: $e');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -13,7 +41,7 @@ class _PostPageState extends State<PostPage> {
         title: Text('Post Page'),
       ),
       body: Center(
-        child: Text('hello world'),
+        child: Text('Hello World'),
       ),
     );
   }
