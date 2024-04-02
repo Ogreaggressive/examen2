@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class PostPage extends StatefulWidget {
   @override
@@ -65,35 +66,45 @@ class _PostPageState extends State<PostPage> {
 
           return Container(
             padding: EdgeInsets.all(16.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        post['title'],
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                      SizedBox(height: 8),
-                      Text(post['body']),
-                    ],
-                  ),
+                Text(
+                  'Current stars rating: $rating',
+                  style: TextStyle(fontWeight: FontWeight.bold),
                 ),
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: Row(
-                    children: List.generate(5,
-                          (index) => IconButton(
-                        onPressed: () => _setRating(postId, index + 1),
-                        icon: Icon(
-                          Icons.star,
-                          color: index < rating ? Colors.amber : Colors.grey,
+                SizedBox(height: 8),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            post['title'],
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                          SizedBox(height: 8),
+                          Text(post['body']),
+                        ],
+                      ),
+                    ),
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: Row(
+                        children: List.generate(5,
+                              (index) => IconButton(
+                            onPressed: () => _setRating(postId, index + 1),
+                            icon: Icon(
+                              Icons.star,
+                              color: index < rating ? Colors.amber : Colors.grey,
+                            ),
+                          ),
                         ),
                       ),
                     ),
-                  ),
+                  ],
                 ),
               ],
             ),
