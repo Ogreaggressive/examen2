@@ -1,6 +1,5 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class PostPage extends StatefulWidget {
   @override
@@ -10,6 +9,7 @@ class PostPage extends StatefulWidget {
 class _PostPageState extends State<PostPage> {
   List<dynamic> _posts = [];
   bool _isLoading = true;
+  Map<int, int> _ratings = {};
 
   @override
   void initState() {
@@ -42,6 +42,12 @@ class _PostPageState extends State<PostPage> {
     }
   }
 
+  void _setRating(int postId, int rating) {
+    setState(() {
+      _ratings[postId] = rating;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -54,6 +60,9 @@ class _PostPageState extends State<PostPage> {
         itemCount: _posts.length,
         itemBuilder: (context, index) {
           final post = _posts[index];
+          final postId = post['id'];
+          final rating = _ratings[postId] ?? 0;
+
           return Container(
             padding: EdgeInsets.all(16.0),
             child: Row(
@@ -72,11 +81,17 @@ class _PostPageState extends State<PostPage> {
                     ],
                   ),
                 ),
-                Row(
-                  children: List.generate(5,
-                        (index) => Icon(
-                      Icons.star,
-                      color: Colors.white,
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Row(
+                    children: List.generate(5,
+                          (index) => IconButton(
+                        onPressed: () => _setRating(postId, index + 1),
+                        icon: Icon(
+                          Icons.star,
+                          color: index < rating ? Colors.amber : Colors.grey,
+                        ),
+                      ),
                     ),
                   ),
                 ),
