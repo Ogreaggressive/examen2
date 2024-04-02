@@ -47,7 +47,9 @@ class _PostPageState extends State<PostPage> {
       appBar: AppBar(
         title: Text('Post Page'),
       ),
-      body: ListView.builder(
+      body: _isLoading
+          ? Center(child: CircularProgressIndicator())
+          : ListView.builder(
         itemCount: _posts.length,
         itemBuilder: (context, index) {
           final post = _posts[index];
