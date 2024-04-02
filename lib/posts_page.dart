@@ -53,9 +53,26 @@ class _PostPageState extends State<PostPage> {
         itemCount: _posts.length,
         itemBuilder: (context, index) {
           final post = _posts[index];
-          return ListTile(
-            title: Text(post['title']),
-            subtitle: Text(post['body']),
+          return Container(
+            padding: EdgeInsets.all(16.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        post['title'],
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      SizedBox(height: 8),
+                      Text(post['body']),
+                    ],
+                  ),
+                ),
+              ],
+            ),
           );
         },
       ),
